@@ -1,7 +1,12 @@
 # SpringFestival
-Spring Festival greetings.
 
-## Code (C++)
+## 简介 / Introduction
+
+春节祝福装13代码。/ Spring Festival greetings.
+
+## 代码 / Code
+
+C++：
 
 ```cpp
 using namespace SpringFestival;
@@ -9,7 +14,7 @@ using namespace SpringFestival;
 int main(int argn, char argv[])
 {
     // 姓名： 郭雄辉，男，生于1977年，广西贺州人
-    Chinese guozi("GuoXiongHui", Male, 1977, China::GuangXi::Hezhou);
+    Chinese guozi("GuoXiongHui", Male, 1977, China::GuangXi::HeZhou);
 
     // 恭贺新禧！
     guozi.say("Best wishes for the year to come!");
@@ -43,6 +48,6 @@ int main(int argn, char argv[])
 }
 ```
 
-## Preview / 预览
+## 预览 / Preview
 
 ![Spring Festival greetings](./SpringFestival.png)
