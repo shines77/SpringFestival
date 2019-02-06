@@ -1,14 +1,34 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
+#include <iostream>
+#include <string>
 
 namespace SpringFestival {
 
 enum Sex {
+    Unknown,
     Male,
     Female
 };
 
 struct Country {
+    enum Type {
+        UnitedStates,
+        UnitedKingdom,
+        Germany,
+        France,
+        Spain,
+        Italy,
+        Russia,
+        China,
+        Japan,
+        Korea
+    };
+};
+
+struct Language {
     enum Type {
         American,
         Briton,
@@ -24,36 +44,72 @@ struct Country {
 };
 
 class Location {
-
 };
 
 namespace China {
+    static Location BeiJing;
+    static Location ShangHai;
+    static Location GuangZhou;
+    static Location ShenZhen;
     namespace GuangXi {
         static Location HeZhou;
     }
 }
 
-class Man {
-public:
-    Man() {}
-    Man(const Man & src) {}
-    Man(Sex sex, const char * name, int year, Country::Type country, Location loc) {}
+static void sayWords(const std::string & name, const std::string & words)
+{
+    std::cout << name.c_str() << ": " << words.c_str() << std::endl;
+}
 
-    virtual void say(const char * words) = 0;
-    virtual void copyright(const char * text) = 0;
-    void github(const char * url) {}
-    void commit(const char * datetime) {}
-    void byebye() {}
+class Person {
+protected:
+    std::string name_;
+    Sex sex_;
+    int year_;
+    Country::Type country_;
+    Location location_;
+
+public:
+    Person() : sex_(Sex::Unknown), year_(0), country_(Country::China), location_(China::BeiJing) {} 
+    Person(const Person & src) {
+        name_ = src.name_;
+        sex_ = src.sex_;
+        year_ = src.year_;
+        country_ = src.country_;
+        location_ = src.location_;
+    }
+    Person(const std::string & name, Sex sex, int year, Country::Type country, Location location)
+        : name_(name), sex_(sex), year_(year), country_(country), location_(location) {}
+
+    virtual void say(const std::string &  words) = 0;
+    virtual void copyright(const std::string & text) = 0;
+
+    virtual void github(const std::string & url) = 0;
+    virtual void commit(const std::string & datetime) = 0;
+    virtual void byebye() = 0;
 };
 
-class Chinese : public Man {
+class Chinese : public Person {
 public:
-    Chinese(Sex sex, const char * name, int year, Location loc)
-        : Man(sex, name, year, Country::Chinese, loc)
+    Chinese(const std::string & name, Sex sex, int year, Location location)
+        : Person(name, sex, year, Country::China, location)
     {}
 
-    void say(const char * words) {}
-    void copyright(const char * text) {}
+    void say(const std::string & words) { sayWords(name_, words); }
+    void copyright(const std::string & text) { sayWords(name_, text); }
+
+    void github(const std::string & url) {
+        std::string words = "GitHub: " + url;
+        sayWords(name_, words);
+    }
+    void commit(const std::string & datetime) {
+        std::string words = "Commit by: " + datetime;
+        sayWords(name_, words);
+    }
+    void byebye() {
+        sayWords(name_, "byebye.");
+        std::cout << std::endl;
+    }
 };
 
 } // namespace SpringFestival
@@ -63,7 +119,7 @@ using namespace SpringFestival;
 int main(int argn, char argv[])
 {
     // 姓名： 郭雄辉，男，生于1977年，广西贺州人
-    Chinese guozi(Male, "GuoXiongHui", 1977, China::GuangXi::HeZhou);
+    Chinese guozi("GuoXiongHui", Male, 1977, China::GuangXi::HeZhou);
 
     // 恭贺新禧！
     guozi.say("Best wishes for the year to come!");
@@ -81,7 +137,7 @@ int main(int argn, char argv[])
     guozi.say("Have a prosperous year!");
 
     // 2019猪年，新年快乐！
-    guozi.say("Happy Spring Festival in the Year of Pigs 2019!");
+    guozi.say("Happy spring festival in the year of pigs 2019!");
 
     // (c) 郭子 2019, 版权所有
     guozi.copyright("Powered by GuoXiongHui, (c) 2019");
