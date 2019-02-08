@@ -56,11 +56,6 @@ namespace China {
     }
 }
 
-static void sayWords(const std::string & name, const std::string & words)
-{
-    std::cout << name.c_str() << ": " << words.c_str() << std::endl;
-}
-
 class Person {
 protected:
     std::string name_;
@@ -81,6 +76,8 @@ public:
     Person(const std::string & name, Sex sex, int year, Country::Type country, Location location)
         : name_(name), sex_(sex), year_(year), country_(country), location_(location) {}
 
+    virtual void sayWords(const std::string & words) = 0;
+
     virtual void say(const std::string &  words) = 0;
     virtual void copyright(const std::string & text) = 0;
 
@@ -95,19 +92,23 @@ public:
         : Person(name, sex, year, Country::China, location)
     {}
 
-    void say(const std::string & words) { sayWords(name_, words); }
-    void copyright(const std::string & text) { sayWords(name_, text); }
+    void sayWords(const std::string & words) {
+        std::cout << name_.c_str() << ": " << words.c_str() << std::endl;
+    }
+
+    void say(const std::string & words) { sayWords(words); }
+    void copyright(const std::string & text) { sayWords(text); }
 
     void github(const std::string & url) {
         std::string words = "GitHub: " + url;
-        sayWords(name_, words);
+        sayWords(words);
     }
     void commit(const std::string & datetime) {
         std::string words = "Commit by: " + datetime;
-        sayWords(name_, words);
+        sayWords(words);
     }
     void byebye() {
-        sayWords(name_, "byebye.");
+        sayWords("byebye.");
         std::cout << std::endl;
     }
 };
@@ -118,7 +119,7 @@ using namespace SpringFestival;
 
 int main(int argn, char argv[])
 {
-    // 姓名： 郭雄辉，男，生于1977年，广西贺州人
+    // 姓名：郭雄辉，男，1977年，广西贺州人
     Chinese guozi("GuoXiongHui", Male, 1977, China::GuangXi::HeZhou);
 
     // 恭贺新禧！
@@ -140,7 +141,7 @@ int main(int argn, char argv[])
     guozi.say("Happy spring festival in the year of pigs 2019!");
 
     // (c) 郭子 2019, 版权所有
-    guozi.copyright("Powered by GuoXiongHui, (c) 2019");
+    guozi.copyright("(c) 2019, Powered by GuoXiongHui.");
 
     // 本程序的 Github 地址如下。
     guozi.github("https://github.com/shines77/SpringFestival");

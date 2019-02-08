@@ -13,7 +13,7 @@ using namespace SpringFestival;
 
 int main(int argn, char argv[])
 {
-    // 姓名： 郭雄辉，男，生于1977年，广西贺州人
+    // 姓名： 郭雄辉，男，1977年，广西贺州人
     Chinese guozi("GuoXiongHui", Male, 1977, China::GuangXi::HeZhou);
 
     // 恭贺新禧！
@@ -35,7 +35,7 @@ int main(int argn, char argv[])
     guozi.say("Happy spring festival in the year of pigs 2019!");
 
     // (c) 郭子 2019, 版权所有
-    guozi.copyright("Powered by GuoXiongHui, (c) 2019");
+    guozi.copyright("(c) 2019, Powered by GuoXiongHui.");
 
     // 本程序的 Github 地址如下。
     guozi.github("https://github.com/shines77/SpringFestival");
